@@ -1,5 +1,6 @@
-let app = document.querySelector(".app")
-
+let app = document.querySelector(".app");
+const fightSound = new Audio("sounds/Fight.mp3")
+const selectSound = new Audio("sounds/Select.mp3")
 
 let mario = {
     name: "Mario",
@@ -43,16 +44,17 @@ let i = 0;
 function characterRight() {
     if (i < 3) {
 
-    
-    i ++;
-    selectCharacter();
+        selectSound.play();
+        i ++;
+        selectCharacter();
 }
 }
 
 function characterLeft() {
     if (i > 0) {
-    i--;
-    selectCharacter();
+        selectSound.play();
+        i--;
+        selectCharacter();
 }
 }
 
@@ -61,23 +63,28 @@ function selectCharacter() {
     app.innerHTML = /*HTML*/ `
     <div class="selectcharacter">
         <button onclick="characterLeft()">←</button>
-        <img onclick="fight()" class="bigcharacter" src="${characterList[i].image}">
+        <img onclick="startFight()" class="bigcharacter" src="${characterList[i].image}">
         <button onclick="characterRight()">→</button>
     </div>
     <div class="character-info">
-    <h1>
+    <h1 class="stor-tekst">
     ${characterList[i].name}
     </h1>
-    <h1>HP: ${characterList[i].hp}</h1>
+    <h1 class="liten-tekst">HP: ${characterList[i].hp}</h1>
+    <h1 class="liten-tekst">Attack: ${characterList[i].attack}</h1>
     </div>
     `;
 }
 
 selectCharacter();
 
+function startFight() {
+    fightSound.play();
+    fight();
+}
+
 function fight() {
     playerCharacter = characterList[i]
-
     
     app.innerHTML = /*HTML*/ `
     <div class="fight-characters">
@@ -86,9 +93,9 @@ function fight() {
     </div>
     <div class="fighttext">
 
-            <h1>${playerCharacter.name} <br/> HP: ${playerCharacter.hp}</h1>
+            <h1> <span class="stor-tekst"> ${playerCharacter.name}</span> <span class="liten-tekst"> <br/> HP: ${playerCharacter.hp} </span></h1>
 
-            <h1>${bowser.name} <br/> HP: ${bowser.hp}</h1>
+            <h1 class="stor-tekst">${bowser.name} <br/> HP: ${bowser.hp}</h1>
     </div>
     <div class="buttons">
         <button onclick="playerAttack()">Attack</button>
@@ -125,7 +132,7 @@ function gameOver() {
 } else if (bowser.hp <= 0) {
     app.innerHTML = /*HTML*/ `
     <div class="gameovertext">
-    <h1>Player won!</h1>
+    <h1>${playerCharacter.name} won!</h1>
     <img src=${playerCharacter.image}>
     <button onclick="selectCharacter()">Play again</button>
     </div>
