@@ -19,7 +19,7 @@ let luigi = {
 let peach = {
     name: "Peach",
     hp: 100,
-    attack: 30,
+    attack: 110,
     image: "images/peach.png"
 }
 
